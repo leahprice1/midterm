@@ -338,6 +338,7 @@ class board{
 
     public:
         char array[rows][cols];
+        char shownarray[rows][cols];
 
         void placeTile(char tiletype){
             int randrow;
@@ -352,6 +353,7 @@ class board{
         board(){
             for(int i = 0; i < rows; i++){
                 for(int j = 0; j < cols; j++){
+                    shownarray[i][j] = '~';
                     array[i][j] = '~';
                 }
             }
@@ -360,7 +362,7 @@ class board{
         void printBoard(){
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
-                    cout << array[i][j] << "  ";
+                    cout << shownarray[i][j] << "  ";
                 }
                 cout << endl;
             }
@@ -381,6 +383,7 @@ class board{
             }
 
             array[0][0] = '%';
+            shownarray[0][0] = '%';
         }
 
         //got moveplayer function from chatgpt
@@ -438,6 +441,8 @@ class board{
             if (array[newRow][newCol] == '~') {
                 array[newRow][newCol] = '%'; // Move player to new position
                 array[playerRow][playerCol] = '~'; // Clear old position
+                shownarray[newRow][newCol] = '%';
+                shownarray[playerRow][playerCol] = '~';
             } 
             if (array[newRow][newCol] == 'c'){
                 monster mon = Mqueue.dequeue();
@@ -489,6 +494,7 @@ class board{
                     int currhp = p1.getHealth();
                     newhp = currhp - monroll;
                     p1.setHealth(newhp);
+                    cout << "You're hp is now: " << p1.getHealth() << endl;
                     if(mon.getHealth() <= 0){
                         cout << "The monster died, good job!" << endl;
                         break;
@@ -500,6 +506,8 @@ class board{
                 }
                 array[newRow][newCol] = '%'; // Move player to new position
                 array[playerRow][playerCol] = '~'; // Clear old position
+                shownarray[newRow][newCol] = '%';
+                shownarray[playerRow][playerCol] = '~';
             }
             if (array[newRow][newCol] == 'r'){
                 //fill in
@@ -521,14 +529,14 @@ class board{
 
                 array[newRow][newCol] = '%'; // Move player to new position
                 array[playerRow][playerCol] = '~'; // Clear old position
+                shownarray[newRow][newCol] = '%';
+                shownarray[playerRow][playerCol] = '~';
             }
-            if (array[newRow][newCol] == 'x'){ //FIXME cannot win
+            if (array[newRow][newCol] == 'x'){ 
             
                 cout << "You won the game!" << endl;
                 cout << "Thank you for playing!" << endl;
                 exit(0);
-            } else {
-                cout << "Can't move there, error." << endl;
             }
         }
 };
